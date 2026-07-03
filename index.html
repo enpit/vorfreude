@@ -1310,9 +1310,9 @@
   </footer>
 
   <script>
-    // Simple local registration handler
-    // Replace fetch() URL with your backend / Formspree / Mailchimp endpoint
-    async function handleRegister(source) {
+    // Registration handler – opens the visitor's mail client with a
+    // pre-addressed mail to enpit so they can be added to the early-access list
+    function handleRegister(source) {
       const emailInput = document.getElementById(source === 'hero' ? 'hero-email' : 'cta-email');
       const formEl = document.getElementById(source === 'hero' ? 'hero-form-el' : 'cta-form-el');
       const successEl = document.getElementById(source === 'hero' ? 'hero-success' : 'cta-success');
@@ -1325,24 +1325,11 @@
         return;
       }
 
-      // ─── INTEGRATION POINT ───────────────────────────────────────────────
-      // Option A: Formspree – ersetze die URL mit deiner Formspree-Form-ID
-      // const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      //   body: JSON.stringify({ email, source })
-      // });
-      //
-      // Option B: Mailchimp via Serverless Function / n8n Webhook
-      // const res = await fetch('https://YOUR_WEBHOOK_URL', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, source, ts: new Date().toISOString() })
-      // });
-      // ─────────────────────────────────────────────────────────────────────
+      const subject = 'Ich habe Interesse an Vorfreude im Leben!';
+      const body = 'Hallo,\n\nich habe Interesse an Vorfreude und möchte auf die Frühzugang-Liste.\n\nMeine E-Mail-Adresse: ' + email + '\n\nViele Grüße';
+      window.location.href = 'mailto:vorfreude@enpit.de?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 
-      // Demo: simulierter Erfolg
-      console.log('[VORFREUDE] Registrierung:', email, source);
+      emailInput.value = '';
       formEl.style.display = 'none';
       successEl.classList.add('visible');
     }
